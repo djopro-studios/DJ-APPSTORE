@@ -15,7 +15,7 @@
 
 1 - Install the APP INSTALLER in your PaxoPhone 
  
-   and Go to the Website by clicking <a href="">Here</a>
+1-1 - Go to the Website by clicking <a href="">Here</a>
     
 2 - choose one of the apps then click on it , Go Down and you will see Give me The code
     
