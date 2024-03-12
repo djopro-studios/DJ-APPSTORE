@@ -3,11 +3,12 @@
 
  SUPPORTS THE paxOS8 
 
-#Plan
+# Plan
+
 1- How to use it .
 2- Device Support
 
-#How To use it?
+# How To use it?
 
 - There is 1 app for the paxo , and 1 website for the app that you want to install it in the paxo
 
