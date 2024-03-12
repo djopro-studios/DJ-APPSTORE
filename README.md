@@ -11,7 +11,7 @@
 
 # How To use it?
 
-- There is 1 app for the paxo , and 1 website for the app that you want to install it in the paxo
+- There is 1 app for the paxo ( the APP INSTALLER ) , and 1 website to choose wish app do you wanna to install it in your paxo
 
 -- Now , this is the steps of using the new DJ APPSTORE :
 
