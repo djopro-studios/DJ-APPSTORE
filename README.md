@@ -19,4 +19,4 @@
 - ( Other Steps are comming Soon )
 
 ## For API :
-### You are looking for an APP that deploys other APP in DJAPPSTORE , To do this go and check our new Wiki about the DJAPPSTORE-API
+### You are looking for an APP that deploys other APP in DJAPPSTORE , To do this go and check our new [Wiki](https://github.com/djopro-studios/DJ-APPSTORE/wiki) about the DJAPPSTORE-API
