@@ -8,9 +8,9 @@
 ## For Users :
 ### You need to install the DJAPPSTORE App on your device, and here is the available and supported Devices :
 
-> - Android (Comming Soon)
-> - Windows (Comming Soon)
-> - PaxOS 9 (Comming Soon)
+> - Android (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
+> - Windows (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
+> - PaxOS 9 (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
 
 ## For App Devs :
 ### If you are interested of making Apps and you want to share it with other people:
