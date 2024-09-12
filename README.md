@@ -1,35 +1,26 @@
 # DJ APPSTORE
-### The first APP STORE available in the PaxoPhone
+### The First Tunisian APPSTORE for Android,Windows and Paxo
 
- SUPPORTS THE paxOS8 
+> [!NOTE]
+> From now , you don't need to go to the website to download the apps , but this stuff is briged to you !
+> And From now , just a simple App in your device.
 
-# Plan
+## For Users :
+### You need to install the DJAPPSTORE App on your device, and here is the available and supported Devices :
 
-1- How to use it .
+> - Android (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
+> - Windows (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
+> - PaxOS 9 (See the [Releases](https://github.com/djopro-studios/DJ-APPSTORE/releases))
 
-2- Device Support
+## For App Devs :
+### If you are interested of making Apps and you want to share it with other people:
 
-# How To use it?
+### Method 1 ( Using the DJAD APP CLI VERSION ):
+1. Go to the branch [DJADeployer](https://github.com/djopro-studios/DJ-APPSTORE/tree/DJADeployer) and follow the steps.
+### Method 2 (Using the Website : Comming Soon ):
+- just go to our [Website](http://appstore.djstudio.work.gd/deploy) (Comming Soon)
+- SignUp or LogIn to your account (Verify your account of course)
+- ( Other Steps are comming Soon )
 
-- There is 1 app for the paxo ( the APP INSTALLER ) , and 1 website to choose wish app do you wanna to install it in your paxo
-
--- Now , this is the steps of using the new DJ APPSTORE :
-
-1 - Install the APP INSTALLER in your PaxoPhone 
- 
-1-1 - Go to the Website by clicking <a href="http://45.90.13.219:6109/index.html">Here</a>
-
-2 - Go To Paxo APPS Catégorie by click on it .
-
-3 - choose one of the apps then click on it , Go Down and you will see the code 
-    
-4 - Now , After installing the APP INSTALLER in your Paxo , just open it.
-    
-   4-1 - Click on Connect, a numeric keyboard appears, with it just insert the key and click on the done key.
-      
-   4-2 - Then if your code right , he will appears all the informations about the app that you are going to install it.
-      
-   4-3 - Now, just click on Install and wait until the button Install become green
-
-  
-
+## For API :
+### You are looking for an APP that deploys other APP in DJAPPSTORE , To do this go and check our new [Wiki](https://github.com/djopro-studios/DJ-APPSTORE/wiki) about the DJAPPSTORE-API
