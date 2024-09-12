@@ -15,6 +15,9 @@
 ## For App Devs :
 ### If you are interested of making Apps and you want to share it with other people:
 
+### Method 1 ( Using the DJAD APP CLI VERSION ):
+1. Go to the branch [DJADeployer](https://github.com/djopro-studios/DJ-APPSTORE/tree/DJADeployer) and follow the steps.
+### Method 2 (Using the Website : Comming Soon ):
 - just go to our [Website](http://appstore.djstudio.work.gd/deploy) (Comming Soon)
 - SignUp or LogIn to your account (Verify your account of course)
 - ( Other Steps are comming Soon )
