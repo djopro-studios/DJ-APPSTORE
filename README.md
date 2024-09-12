@@ -8,15 +8,14 @@
 ### You want to install the CLI on your OS , why not ! just do this steps one by one !
 
 1. Make sure that the Python3 , Pip and Git are installed on your OS
-2. Clone this branch in this repository by doing this command :
-   
-```git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE
+2. Clone this branch in this repository by doing this command : 
 ```
-
-4. Build and install the application, run the following command in the project directory (in the cloned folder with the name 'DJADeployer'):
-   
-```pip install .```
-
+git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE
+```
+4. Build and install the application, run the following command in the project directory (in the cloned folder with the name 'DJADeployer'): 
+```
+pip install .
+```
 ## How to Use :
 ### When you are done and you installed the app successfully , we can go to the next step !
 
