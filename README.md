@@ -10,7 +10,8 @@
 1. Make sure that the Python3 , Pip and Git are installed on your OS
 2. Clone this branch in this repository by doing this command :
    
-```git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE```
+```git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE
+```
 
 4. Build and install the application, run the following command in the project directory (in the cloned folder with the name 'DJADeployer'):
    
