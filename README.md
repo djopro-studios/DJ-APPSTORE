@@ -1,23 +1,20 @@
-# DJ APPSTORE
-### The First Tunisian APPSTORE for Android,Windows and Paxo
+# DJAPPSTORE DEPLOYER ( CLI VERSION ) For DJAPPSTORE
+### The CLI that let you deploy, add / remove accounts and deploy / remove your app
 
 > [!NOTE]
-> From now , you don't need to go to the website to download the apps , but this stuff is briged to you !
-> And From now , just a simple App in your device.
+> For now , this is the only program that lets you do anything using DJAPPSTORE_API
 
-## For Users :
-### You need to install the DJAPPSTORE App on your device, and here is the available and supported Devices :
+## Installation :
+### You want to install the CLI on your OS , why not ! just do this steps one by one !
 
-> - Android (Comming Soon)
-> - Windows (Comming Soon)
-> - PaxOS 9 (Comming Soon)
+1. Make sure that the Python3 , Pip and Git are installed on your OS
+2. Clone this branch in this repository by doing this command :
+```git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE```
+3. Build and install the application, run the following command in the project directory (in the cloned folder with the name 'DJADeployer'):
+```pip install .```
 
-## For App Devs :
-### If you are interested of making Apps and you want to share it with other people:
+## How to Use :
+### When you are done and you installed the app successfully , we can go to the next step !
 
-- just go to our [Website](http://appstore.djstudio.work.gd/deploy) (Comming Soon)
-- SignUp or LogIn to your account (Verify your account of course)
-- ( Other Steps are comming Soon )
-
-## For API :
-### You are looking for an APP that deploys other APP in DJAPPSTORE , To do this go and check our new [Wiki](https://github.com/djopro-studios/DJ-APPSTORE/wiki) about the DJAPPSTORE-API
+- To get help of all commands , just type `djad help`
+> With this command you can have every command and there explanation !
