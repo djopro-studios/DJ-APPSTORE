@@ -383,7 +383,7 @@ def update_cmd():
                     print("[|] Updating the CLI", end='\r', flush=True)
                     
                     ###################################################
-                    
+
                     result = subprocess.run(["git", "clone", "-b", "DJADeployer", "https://github.com/djopro-studios/DJ-APPSTORE"], capture_output=True, text=True)
 
                     if result.returncode == 0:
