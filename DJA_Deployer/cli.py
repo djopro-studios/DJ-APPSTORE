@@ -15,6 +15,42 @@ URL = requests.get("https://raw.githubusercontent.com/djopro-studios/DJ-APPSTORE
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+########### COLORS #############
+BLACK = '\033[30m'
+RED = '\033[31m'
+GREEN = '\033[32m'
+YELLOW = '\033[33m' # orange on some systems
+BLUE = '\033[34m'
+MAGENTA = '\033[35m'
+CYAN = '\033[36m'
+LIGHT_GRAY = '\033[37m'
+DARK_GRAY = '\033[90m'
+BRIGHT_RED = '\033[91m'
+BRIGHT_GREEN = '\033[92m'
+BRIGHT_YELLOW = '\033[93m'
+BRIGHT_BLUE = '\033[94m'
+BRIGHT_MAGENTA = '\033[95m'
+BRIGHT_CYAN = '\033[96m'
+WHITE = '\033[97m'
+RESET = '\033[0m' # called to return to standard terminal text color
+BACKGROUND_BLACK = '\033[40m'
+BACKGROUND_RED = '\033[41m'
+BACKGROUND_GREEN = '\033[42m'
+BACKGROUND_YELLOW = '\033[43m' # orange on some systems
+BACKGROUND_BLUE = '\033[44m'
+BACKGROUND_MAGENTA = '\033[45m'
+BACKGROUND_CYAN = '\033[46m'
+BACKGROUND_LIGHT_GRAY = '\third-party033[47m'
+BACKGROUND_DARK_GRAY = '\033[100m'
+BACKGROUND_BRIGHT_RED = '\033[101m'
+BACKGROUND_BRIGHT_GREEN = '\033[102m'
+BACKGROUND_BRIGHT_YELLOW = '\033[103m'
+BACKGROUND_BRIGHT_BLUE = '\033[104m'
+BACKGROUND_BRIGHT_MAGENTA = '\033[105m'
+BACKGROUND_BRIGHT_CYAN = '\033[106m'
+BACKGROUND_WHITE = '\033[107m'
+##########################################
+
 def is_valid_tar(tar_path):
     try:
         # Open the tar file in read mode
@@ -76,7 +112,7 @@ def connect_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[OK] Checking for connection saved")
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
         print()
         usrname = input("Username : ")
         psword = input("Password : ")
@@ -89,34 +125,34 @@ def connect_cmd():
             json_dt = json.loads(account.text)
             print("[/] Connecting to your account", end='\r', flush=True)
             if json_dt["success"] == 0:
-                print("[!] Connecting to your account")
+                print(YELLOW + "[!]" + RESET + " Connecting to your account")
                 if json_dt["error"] == "pswd_incorrect":
-                    print("Error : Password Incorrect")
+                    print(RED + "Error : Password Incorrect" + RESET)
                     exit()
                 elif json_dt["error"] == "NameAccount_404":
-                    print("Error : Account Not Found")
+                    print(RED + "Error : Account Not Found" + RESET)
                     exit()
             else:
                 if json_dt["verified"] == 1:
-                    print("[OK] Connecting to your account")
+                    print(GREEN + "[OK]" + RESET + " Connecting to your account")
                     print("[-] Saving your connection", end='\r', flush=True)
                     file = open("token","w")
                     print("[\] Saving your connection", end='\r', flush=True)
                     file.write(json_dt["id_creator"])
-                    print("[OK] Saving your connection")
+                    print(GREEN + "[OK]" + RESET + " Saving your connection")
                     file.close()
                     exit()
                 else:
-                    print("[!] Connecting to your account")
-                    print("Error : Account must be verified")
+                    print(YELLOW + "[!]" + RESET + " Connecting to your account")
+                    print(RED + "Error : Account must be verified" + RESET)
                     exit()
         else:
-            print("[!] Checking for connection saved")
-            print(f"Error : Bad Request Code {account.status_code}")
+            print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+            print(f"Error : Bad Request Code {account.status_code}" + RESET)
             exit()
     else:
-        print("[!] Checking for connection saved")
-        print("Error : Another account already connected")
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : Another account already connected" + RESET)
         exit()
 
 def new_account_cmd():
@@ -129,7 +165,7 @@ def new_account_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[OK] Checking for connection saved")
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
         print()
         usrname = input("Username : ")
         psword = input("Password : ")
@@ -143,40 +179,40 @@ def new_account_cmd():
             json_dt = json.loads(account.text)
             if json_dt["success"] == 0:
                 if json_dt["error"] == "AccountName_Taken":
-                    print("[!] Creating a new account")
-                    print("Error : Name Account is already taken")
+                    print(YELLOW + "[!]" + RESET + " Creating a new account")
+                    print(RED + "Error : Name Account is already taken" + RESET)
                     exit()
                 else:
-                    print("[!] Creating a new account")
-                    print(f"Error : JSON {json_dt['error']}")
+                    print(YELLOW + "[!]" + RESET + " Creating a new account")
+                    print(f"Error : JSON {json_dt['error']}" + RESET)
                     exit()
             else:
-                print("[OK] Creating a new account")
+                print(GREEN + "[OK]" + RESET + " Creating a new account")
                 print("[-] Saving your connection", end='\r', flush=True)
                 file = open("token","w")
                 print("[\] Saving your connection", end='\r', flush=True)
                 file.write(json_dt["id_creator"])
                 print("[|] Saving your connection", end='\r', flush=True)
                 file.close()
-                print("[OK] Saving your connection")
+                print(GREEN + "[OK]" + RESET + " Saving your connection")
         else:
-            print("[!] Checking for connection saved")
-            print(f"Error : Bad Request Code {account.status_code}")
+            print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+            print(f"Error : Bad Request Code {account.status_code}" + RESET)
             exit()
     else:
-        print("[!] Checking for connection saved")
-        print("Error : Another account already connected")
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : Another account already connected" + RESET)
         exit()
 
 def disconnect_cmd():
     print("[-] Deleting your connection", end='\r', flush=True)
     if not os.path.exists("token"):
         open("token","w").write("")
-        print("[OK] Deleting your connection")
+        print(GREEN + "[OK]" + RESET + " Deleting your connection")
     else:
         os.remove("token")
         open("token","w").write("")
-        print("[OK] Deleting your connection")
+        print(GREEN + "[OK]" + RESET + " Deleting your connection")
 
 def deploy_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
@@ -188,11 +224,11 @@ def deploy_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[!] Checking for connection saved")
-        print("Error : No saved connection found")
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : No saved connection found" + RESET)
         exit()
     else:
-        print("[OK] Checking for connection saved")
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
         print()
         print(" - Choose your platform supported app:")
         print()
@@ -202,17 +238,17 @@ def deploy_cmd():
         print()
         platform = int(input("Choose > "))
         if platform < 1 or platform > 3:
-            print("Error : Choise not found")
+            print(RED + "Error : Choise not found" + RESET)
             exit()
         print()
         print(" - Complete the app details :")
         name = str(input("App Name : "))
-        print("Description [MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing]")
+        print("Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
         lines = []
         description = ""
         while True:
             try:
-                line = input(">")
+                line = input(GREEN + "> " + RESET)
                 lines.append(line)
             except EOFError:
                 break
@@ -220,34 +256,37 @@ def deploy_cmd():
         
         if len(lines) != 0:
             for txt in lines:
-                description = f"{description}\n"
+                txt.replace("^Z","")
+                txt.replace("^D","")
+
+                description = f"{description}\n{txt}"
         
         icon_path = str(input("Icon Path (.png only supported) : "))
         if not is_valid_image_pillow(icon_path):
-            print("Error : Not a valid image")
+            print(RED + "Error : Not a valid image" + RESET)
             exit()
         else:
             if open(icon_path, "rb").read(4) != b"\x89PNG":
-                print("Error : Only .png file are supported")
+                print(RED + "Error : Only .png file are supported" + RESET)
                 exit()
         
         file_path = str(input("App File : "))
 
         if not os.path.exists(file_path):
-            print("Error : File Not Found")
+            print(RED + "Error : File Not Found" + RESET)
             exit()
         else:
             if platform == 1:
                 if not is_valid_apk(file_path):
-                    print("Error : File APK not valid")
+                    print(RED + "Error : File APK not valid" + RESET)
                     exit()
             elif platform == 2:
                 if not is_valid_pe(file_path):
-                    print("Error : File .EXE not valid")
+                    print(RED + "Error : File .EXE not valid" + RESET)
                     exit()
             elif platform == 3:
                 if not is_valid_tar(file_path):
-                    print("Error : File .TAR not valid")
+                    print(RED + "Error : File .TAR not valid" + RESET)
                     exit()
         print()
         print("[-] Deploying your app", end='\r', flush=True)
@@ -277,20 +316,20 @@ def deploy_cmd():
         if requete.status_code == 200:
             if json.loads(requete.text)["success"] == 0:
                 if json.loads(requete.text)["error"] == "AccountID_404":
-                    print("[!] Deploying your app")
-                    print("Error : Account not Found")
+                    print(YELLOW + "[!]" + RESET + " Deploying your app")
+                    print(RED + "Error : Account not Found" + RESET)
                     exit()
                 elif json.loads(requete.text)["error"] == "Unverified_Account":
-                    print("[!] Deploying your app")
-                    print("Error : Account not Verified")
+                    print(YELLOW + "[!]" + RESET + " Deploying your app")
+                    print(RED + "Error : Account not Verified" + RESET)
                     exit()
                 elif json.loads(requete.text)["error"] == "NameApp_Taken":
-                    print("[!] Deploying your app")
-                    print("Error : App Name is already taken")
+                    print(YELLOW + "[!]" + RESET + " Deploying your app")
+                    print(RED + "Error : App Name is already taken" + RESET)
                     exit()
             
             else:
-                print("[OK] Deploying your app")
+                print(GREEN + "[OK]" + RESET + " Deploying your app")
 
 def remove_app_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
@@ -302,11 +341,11 @@ def remove_app_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[!] Checking for connection saved")
-        print("Error : No saved connection found")
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : No saved connection found" + RESET)
         exit()
     else:
-        print("[OK] Checking for connection saved")
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
         print()
         print(" - Choose your platform supported app:")
         print()
@@ -316,7 +355,7 @@ def remove_app_cmd():
         print()
         platform = int(input("Choose > "))
         if platform < 1 or platform > 3:
-            print("Error : Choise not found")
+            print(RED + "Error : Choise not found" + RESET)
             exit()
         print()
         name = str(input("Name APP to remove : "))
@@ -343,27 +382,27 @@ def remove_app_cmd():
         if requete.status_code == 200:
             if json.loads(requete.text)["success"] == 0:
                 if json.loads(requete.text)["error"] == "AccountID_404":
-                    print("[!] Removing your app")
-                    print("Error : Account not Found")
+                    print(YELLOW + "[!]" + RESET + " Removing your app")
+                    print(RED + "Error : Account not Found" + RESET)
                     exit()
                 elif json.loads(requete.text)["error"] == "Unverified_Account":
-                    print("[!] Removing your app")
-                    print("Error : Account not Verified")
+                    print(YELLOW + "[!]" + RESET + " Removing your app")
+                    print(RED + "Error : Account not Verified" + RESET)
                     exit()
                 elif json.loads(requete.text)["error"] == "AppName_404":
-                    print("[!] Removing your app")
-                    print("Error : App Name not Found")
+                    print(YELLOW + "[!]" + RESET + " Removing your app")
+                    print(RED + "Error : App Name not Found" + RESET)
                     exit()
                 elif json.loads(requete.text)["error"] == "AccountID_NotAllowed":
-                    print("[!] Removing your app")
-                    print("Error : You are not allowed to remove other creator apps")
+                    print(YELLOW + "[!]" + RESET + " Removing your app")
+                    print(RED + "Error : You are not allowed to remove other creator apps" + RESET)
                     exit()
             
             else:
-                print("[OK] Removing your app")
+                print(GREEN + "[OK]" + RESET + " Removing your app")
         else:
-            print("[!] Checking for connection saved")
-            print(f"Error : Bad Request Code {requete.status_code}")
+            print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+            print(f"Error : Bad Request Code {requete.status_code}" + RESET)
             exit()
 
 def update_cmd():
@@ -375,7 +414,7 @@ def update_cmd():
         if recent_version.status_code == 200:
             print("[-] Checking Updates", end='\r', flush=True)
             if json.loads(recent_version.text)["v_deployer"] > __version__:
-                print("[OK] Checking Updates")
+                print(GREEN + "[OK]" + RESET + " Checking Updates")
                 print("[-] Updating the CLI", end='\r', flush=True)
                 #upd_data = requests.get(f"{URL}/updates_file/cli.py",verify=False)
                 print("[\] Updating the CLI", end='\r', flush=True)
@@ -392,37 +431,37 @@ def update_cmd():
                         result = subprocess.run(["pip","install","."], capture_output=True, text=True)
 
                         if result.returncode == 0:
-                            print("[OK] Updating the CLI")
+                            print(GREEN + "[OK]" + RESET + " Updating the CLI")
                             os.chdir(f"{os.getcwd()}/..") 
                             print(f"Note : Just delete the folder DJ-APPSTORE in the {os.getcwd()}")
                             exit()
                         else:
-                            print("[!] Updating the CLI")
-                            print("Error : ", result.stderr)
+                            print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                            print(RED + "Error : ", result.stderr + RESET)
 
                     else:
-                        print("[!] Updating the CLI")
-                        print("Error : ", result.stderr)
+                        print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                        print(RED + "Error : ", result.stderr + RESET)
 
                     ###################################################
                 else:
-                    print("[!] Updating the CLI")
-                    print("Error : Bad Request / Internet Connexion")
+                    print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                    print(RED + "Error : Bad Request / Internet Connexion" + RESET)
                     exit()
             else:
-                print("[OK] Checking Updates")
+                print(GREEN + "[OK]" + RESET + " Checking Updates")
                 exit()
         else:
-            print("[!] Checking Updates")
-            print("Error : Bad Request / Internet Connexion")
+            print(YELLOW + "[!]" + RESET + " Checking Updates")
+            print(RED + "Error : Bad Request / Internet Connexion" + RESET)
             exit()
     else:
-        print("[!] Checking Updates")
-        print("Error : Bad Request / Internet Connexion")
+        print(YELLOW + "[!]" + RESET + " Checking Updates")
+        print(RED + "Error : Bad Request / Internet Connexion" + RESET)
         exit()
 
 def fix_cmd():
-    print("Error : Comming Soon")
+    print(RED + "Error : Comming Soon" + RESET)
 
 ################ MAIN ################
 def main():
@@ -454,11 +493,11 @@ def main():
 
     #print(sys.argv[0])
     #if sys.argv[0].lower().find("python"):
-    #    print("[!] First check")
-    #    print("Error : Use 'pip install .' then use 'djad help'")
+    #    print(YELLOW + "[!]" + RESET + " First check")
+    #    print(RED + "Error : Use 'pip install .' then use 'djad help'")
     #    exit()
     #else:
-    #    print("[OK] First Check")
+    #    print(GREEN + "[OK]" + RESET + " First Check")
 
     # CHECK UPDATES
     print("[-] Checking Updates", end='\r', flush=True)
@@ -472,7 +511,7 @@ def main():
         if recent_version.status_code == 200:
             print("[-] Checking Updates", end='\r', flush=True)
             if json.loads(recent_version.text)["v_deployer"] > __version__:
-                print("[OK] Checking Updates")
+                print(GREEN + "[OK]" + RESET + " Checking Updates")
                 print("[-] Updating the CLI", end='\r', flush=True)
                 # upd_data = requests.get(f"{URL}/updates_file/cli.py", verify=False)
                 print("[\] Updating the CLI", end='\r', flush=True)
@@ -489,33 +528,33 @@ def main():
                         result = subprocess.run(["pip","install","."], capture_output=True, text=True)
 
                         if result.returncode == 0:
-                            print("[OK] Updating the CLI")
+                            print(GREEN + "[OK]" + RESET + " Updating the CLI")
                             os.chdir(f"{os.getcwd()}/..") 
                             print(f"Note : Just delete the folder DJ-APPSTORE in the {os.getcwd()}")
                             exit()
                         else:
-                            print("[!] Updating the CLI")
-                            print("Error : ", result.stderr)
+                            print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                            print(RED + "Error : ", result.stderr + RESET)
 
                     else:
-                        print("[!] Updating the CLI")
-                        print("Error : ", result.stderr)
+                        print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                        print(RED + "Error : ", result.stderr + RESET)
 
                     ###################################################
                 else:
-                    print("[!] Updating the CLI")
-                    print("Error : Bad Request / Internet Connexion")
+                    print(YELLOW + "[!]" + RESET + " Updating the CLI")
+                    print(RED + "Error : Bad Request / Internet Connexion" + RESET)
                     exit()
             else:
-                print("[OK] Checking Updates")
+                print(GREEN + "[OK]" + RESET + " Checking Updates")
                 
         else:
-            print("[!] Checking Updates")
-            print("Error : Bad Request / Internet Connexion")
+            print(YELLOW + "[!]" + RESET + " Checking Updates")
+            print(RED + "Error : Bad Request / Internet Connexion" + RESET)
             exit()
     else:
-        print("[!] Checking Updates")
-        print("Error : Bad Request / Internet Connexion")
+        print(YELLOW + "[!]" + RESET + " Checking Updates")
+        print(RED + "Error : Bad Request / Internet Connexion" + RESET)
         exit()
 
     if len(sys.argv) == 1:
