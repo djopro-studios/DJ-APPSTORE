@@ -9,6 +9,7 @@ import pefile
 import tarfile
 import subprocess
 import urllib3
+import shutil
 
 URL = requests.get("https://raw.githubusercontent.com/djopro-studios/DJ-APPSTORE/server-api-upd-side/server-api-universal").text.strip().replace("%0A", "")
 
@@ -75,7 +76,7 @@ def connect_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[✓] Checking for connection saved")
+        print("[OK] Checking for connection saved")
         print()
         usrname = input("Username : ")
         psword = input("Password : ")
@@ -97,12 +98,12 @@ def connect_cmd():
                     exit()
             else:
                 if json_dt["verified"] == 1:
-                    print("[✓] Connecting to your account")
+                    print("[OK] Connecting to your account")
                     print("[-] Saving your connection", end='\r', flush=True)
                     file = open("token","w")
                     print("[\] Saving your connection", end='\r', flush=True)
                     file.write(json_dt["id_creator"])
-                    print("[✓] Saving your connection")
+                    print("[OK] Saving your connection")
                     file.close()
                     exit()
                 else:
@@ -128,7 +129,7 @@ def new_account_cmd():
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
-        print("[✓] Checking for connection saved")
+        print("[OK] Checking for connection saved")
         print()
         usrname = input("Username : ")
         psword = input("Password : ")
@@ -147,17 +148,17 @@ def new_account_cmd():
                     exit()
                 else:
                     print("[!] Creating a new account")
-                    print(f"Error : JSON {json_dt["error"]}")
+                    print(f"Error : JSON {json_dt['error']}")
                     exit()
             else:
-                print("[✓] Creating a new account")
+                print("[OK] Creating a new account")
                 print("[-] Saving your connection", end='\r', flush=True)
                 file = open("token","w")
                 print("[\] Saving your connection", end='\r', flush=True)
                 file.write(json_dt["id_creator"])
                 print("[|] Saving your connection", end='\r', flush=True)
                 file.close()
-                print("[✓] Saving your connection")
+                print("[OK] Saving your connection")
         else:
             print("[!] Checking for connection saved")
             print(f"Error : Bad Request Code {account.status_code}")
@@ -171,11 +172,11 @@ def disconnect_cmd():
     print("[-] Deleting your connection", end='\r', flush=True)
     if not os.path.exists("token"):
         open("token","w").write("")
-        print("[✓] Deleting your connection")
+        print("[OK] Deleting your connection")
     else:
         os.remove("token")
         open("token","w").write("")
-        print("[✓] Deleting your connection")
+        print("[OK] Deleting your connection")
 
 def deploy_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
@@ -191,7 +192,7 @@ def deploy_cmd():
         print("Error : No saved connection found")
         exit()
     else:
-        print("[✓] Checking for connection saved")
+        print("[OK] Checking for connection saved")
         print()
         print(" - Choose your platform supported app:")
         print()
@@ -289,7 +290,7 @@ def deploy_cmd():
                     exit()
             
             else:
-                print("[✓] Deploying your app")
+                print("[OK] Deploying your app")
 
 def remove_app_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
@@ -305,7 +306,7 @@ def remove_app_cmd():
         print("Error : No saved connection found")
         exit()
     else:
-        print("[✓] Checking for connection saved")
+        print("[OK] Checking for connection saved")
         print()
         print(" - Choose your platform supported app:")
         print()
@@ -359,7 +360,7 @@ def remove_app_cmd():
                     exit()
             
             else:
-                print("[✓] Removing your app")
+                print("[OK] Removing your app")
         else:
             print("[!] Checking for connection saved")
             print(f"Error : Bad Request Code {requete.status_code}")
@@ -374,26 +375,34 @@ def update_cmd():
         if recent_version.status_code == 200:
             print("[-] Checking Updates", end='\r', flush=True)
             if json.loads(recent_version.text)["v_deployer"] > __version__:
-                print("[✓] Checking Updates")
+                print("[OK] Checking Updates")
                 print("[-] Updating the CLI", end='\r', flush=True)
-                upd_data = requests.get(f"{URL}/updates_file/cli.py",verify=False)
+                #upd_data = requests.get(f"{URL}/updates_file/cli.py",verify=False)
                 print("[\] Updating the CLI", end='\r', flush=True)
-                if upd_data.status_code == 200:
+                if True:
                     print("[|] Updating the CLI", end='\r', flush=True)
-                    cli_file = open(__file__,"w")
-                    print("[/] Updating the CLI", end='\r', flush=True)
-                    cli_file.write(upd_data.text)
-                    print("[-] Updating the CLI", end='\r', flush=True)
+                    
                     ###################################################
-                    open("__version__.py","w").write(f"__version__= {json.loads(recent_version.text)["v_deployer"]}")
-                    result = subprocess.run([sys.executable, "-m", "pip", "install", "--force-reinstall", "."],
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    
+                    result = subprocess.run(["git", "clone", "-b", "DJADeployer", "https://github.com/djopro-studios/DJ-APPSTORE"], capture_output=True, text=True)
+
                     if result.returncode == 0:
-                        print("[✓] Updating the CLI")
-                        exit()
+                        print("[/] Updating the CLI", end='\r', flush=True)
+                        os.chdir(f"{os.getcwd()}/DJ-APPSTORE") 
+                        result = subprocess.run(["pip","install","."], capture_output=True, text=True)
+
+                        if result.returncode == 0:
+                            print("[OK] Updating the CLI")
+                            os.chdir(f"{os.getcwd()}/..") 
+                            print(f"Note : Just delete the folder DJ-APPSTORE in the {os.getcwd()}")
+                            exit()
+                        else:
+                            print("[!] Updating the CLI")
+                            print("Error : ", result.stderr)
+
                     else:
                         print("[!] Updating the CLI")
-                        print("Error : ", result.stderr.decode())
+                        print("Error : ", result.stderr)
 
                     ###################################################
                 else:
@@ -401,7 +410,7 @@ def update_cmd():
                     print("Error : Bad Request / Internet Connexion")
                     exit()
             else:
-                print("[✓] Checking Updates")
+                print("[OK] Checking Updates")
                 exit()
         else:
             print("[!] Checking Updates")
@@ -418,27 +427,28 @@ def fix_cmd():
 ################ MAIN ################
 def main():
     print(f"""                              
-               ═══════                  
-              ║       ║                 
-              ║       ║                 
-              ║       ║                 
-            ═════════════               
-           ║  ║       ║  ║              
-          ║   ▀       ▀   ║             
-         ║    ╔═══╗  ╔╗    ║            
-         ║    ╚╗╔╗║  ║║    ║            
-        ║      ║║║║  ║║     ║           
-        ║      ║║║║╔╗║║     ║           
-       ║      ╔╝╚╝║║╚╝║      ║          
-       ║      ╚═══╝╚══╝      ║          
-       ║                     ║          
-        ═════════════════════           
+               -------                  
+              |       |                 
+              |       |                 
+              |       |                 
+            -------------               
+           |  |       |  |              
+          |               |             
+         |    @@@@@   @    |            
+         |     @  @   @    |            
+        |      @  @   @     |           
+        |      @  @ @ @     |           
+       |       @  @ @ @      |          
+       |      @@@@@ @@@      |          
+       |                     |          
+        ---------------------           
       
        +=====================+
-       ║ DJAPPSTORE DEPLOYER ║
+       | DJAPPSTORE DEPLOYER |
        +========= V{__version__} ========+
 
 """)
+
 
     # FIRST CHECK
 
@@ -448,7 +458,7 @@ def main():
     #    print("Error : Use 'pip install .' then use 'djad help'")
     #    exit()
     #else:
-    #    print("[✓] First Check")
+    #    print("[OK] First Check")
 
     # CHECK UPDATES
     print("[-] Checking Updates", end='\r', flush=True)
@@ -462,27 +472,34 @@ def main():
         if recent_version.status_code == 200:
             print("[-] Checking Updates", end='\r', flush=True)
             if json.loads(recent_version.text)["v_deployer"] > __version__:
-                print("[✓] Checking Updates")
+                print("[OK] Checking Updates")
                 print("[-] Updating the CLI", end='\r', flush=True)
-                upd_data = requests.get(f"{URL}/updates_file/cli.py", verify=False)
+                # upd_data = requests.get(f"{URL}/updates_file/cli.py", verify=False)
                 print("[\] Updating the CLI", end='\r', flush=True)
-                if upd_data.status_code == 200:
+                if True:
                     print("[|] Updating the CLI", end='\r', flush=True)
-                    cli_file = open(__file__, "w")
-                    print("[/] Updating the CLI", end='\r', flush=True)
-                    cli_file.write(upd_data.text)
-                    print("[-] Updating the CLI", end='\r', flush=True)
+                    
                     ###################################################
-                    open("__version__.py","w").write(f"__version__= {json.loads(recent_version.text)["v_deployer"]}")
+                    
+                    result = subprocess.run(["git", "clone", "-b", "DJADeployer", "https://github.com/djopro-studios/DJ-APPSTORE"], capture_output=True, text=True)
 
-                    result = subprocess.run([sys.executable, "-m", "pip", "install", "--force-reinstall", "."],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     if result.returncode == 0:
-                        print("[✓] Updating the CLI")
-                        exit()
+                        print("[/] Updating the CLI", end='\r', flush=True)
+                        os.chdir(f"{os.getcwd()}/DJ-APPSTORE") 
+                        result = subprocess.run(["pip","install","."], capture_output=True, text=True)
+
+                        if result.returncode == 0:
+                            print("[OK] Updating the CLI")
+                            os.chdir(f"{os.getcwd()}/..") 
+                            print(f"Note : Just delete the folder DJ-APPSTORE in the {os.getcwd()}")
+                            exit()
+                        else:
+                            print("[!] Updating the CLI")
+                            print("Error : ", result.stderr)
+
                     else:
                         print("[!] Updating the CLI")
-                        print("Error : ", result.stderr.decode())
+                        print("Error : ", result.stderr)
 
                     ###################################################
                 else:
@@ -490,7 +507,7 @@ def main():
                     print("Error : Bad Request / Internet Connexion")
                     exit()
             else:
-                print("[✓] Checking Updates")
+                print("[OK] Checking Updates")
                 
         else:
             print("[!] Checking Updates")
