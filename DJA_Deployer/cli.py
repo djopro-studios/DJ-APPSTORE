@@ -104,11 +104,11 @@ def help_cmd():
     
 def connect_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
-    if not os.path.exists("token"):
-        open("token","w").write("")
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         
     print("[\] Checking for connection saved", end='\r', flush=True)
-    file = open("token","r")
+    file = open(f"{os.path.dirname(__file__)}/token","r")
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
@@ -136,7 +136,7 @@ def connect_cmd():
                 if json_dt["verified"] == 1:
                     print(GREEN + "[OK]" + RESET + " Connecting to your account")
                     print("[-] Saving your connection", end='\r', flush=True)
-                    file = open("token","w")
+                    file = open(f"{os.path.dirname(__file__)}/token","w")
                     print("[\] Saving your connection", end='\r', flush=True)
                     file.write(json_dt["id_creator"])
                     print(GREEN + "[OK]" + RESET + " Saving your connection")
@@ -157,11 +157,11 @@ def connect_cmd():
 
 def new_account_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
-    if not os.path.exists("token"):
-        open("token","w").write("")
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         
     print("[\] Checking for connection saved", end='\r', flush=True)
-    file = open("token","r")
+    file = open(f"{os.path.dirname(__file__)}/token","r")
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
@@ -189,7 +189,7 @@ def new_account_cmd():
             else:
                 print(GREEN + "[OK]" + RESET + " Creating a new account")
                 print("[-] Saving your connection", end='\r', flush=True)
-                file = open("token","w")
+                file = open(f"{os.path.dirname(__file__)}/token","w")
                 print("[\] Saving your connection", end='\r', flush=True)
                 file.write(json_dt["id_creator"])
                 print("[|] Saving your connection", end='\r', flush=True)
@@ -206,21 +206,21 @@ def new_account_cmd():
 
 def disconnect_cmd():
     print("[-] Deleting your connection", end='\r', flush=True)
-    if not os.path.exists("token"):
-        open("token","w").write("")
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         print(GREEN + "[OK]" + RESET + " Deleting your connection")
     else:
-        os.remove("token")
-        open("token","w").write("")
+        os.remove(f"{os.path.dirname(__file__)}/token")
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         print(GREEN + "[OK]" + RESET + " Deleting your connection")
 
 def deploy_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
-    if not os.path.exists("token"):
-        open("token","w").write("")
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         
     print("[\] Checking for connection saved", end='\r', flush=True)
-    file = open("token","r")
+    file = open(f"{os.path.dirname(__file__)}/token","r")
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
@@ -299,7 +299,7 @@ def deploy_cmd():
             "appfile": open(file_path,"rb")
         }
         cookies_data = {
-            "id_creator":str(open("token","r").read())
+            "id_creator":str(open(f"{os.path.dirname(__file__)}/token","r").read())
         }
         requete = None
         if platform == 1:
@@ -333,11 +333,11 @@ def deploy_cmd():
 
 def remove_app_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
-    if not os.path.exists("token"):
-        open("token","w").write("")
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
         
     print("[\] Checking for connection saved", end='\r', flush=True)
-    file = open("token","r")
+    file = open(f"{os.path.dirname(__file__)}/token","r")
     print("[|] Checking for connection saved", end='\r', flush=True)
     if file.read() == "":
         file.close()
@@ -365,7 +365,7 @@ def remove_app_cmd():
             "name":name,
         } 
         cookies_data = {
-            "id_creator":str(open("token","r").read())
+            "id_creator":str(open(f"{os.path.dirname(__file__)}/token","r").read())
         }
         requete = None
         if platform == 1:
