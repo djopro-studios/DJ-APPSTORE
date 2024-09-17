@@ -243,14 +243,14 @@ def deploy_cmd():
         print()
         print(" - Complete the app details :")
         name = str(input("App Name : "))
-        version = str(input("Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + ":"))
+        version = str(input("Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + RESET + ":"))
         if version == "":
             version = "v1.0"
         
         if name == "":
             print(RED + "Error : Name APP Required")
             exit()
-            
+
         print("Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
         lines = []
         description = ""
