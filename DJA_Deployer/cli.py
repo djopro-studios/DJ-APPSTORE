@@ -243,6 +243,14 @@ def deploy_cmd():
         print()
         print(" - Complete the app details :")
         name = str(input("App Name : "))
+        version = str(input("Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + ":"))
+        if version == "":
+            version = "v1.0"
+        
+        if name == "":
+            print(RED + "Error : Name APP Required")
+            exit()
+            
         print("Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
         lines = []
         description = ""
@@ -293,6 +301,7 @@ def deploy_cmd():
         data_form_deploy ={
             "name":name,
             "description":description,
+            "version":version
         } 
         data_files_deploy = {
             "icon": open(icon_path,"rb"),
