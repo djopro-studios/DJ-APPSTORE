@@ -94,6 +94,7 @@ def help_cmd():
 - new_account : create a new account
 - disconnect : disconnect from your account and erase your last connection
 - deploy : deploy apps on the store
+- modify_app : modify the content of the app
 - remove_app : erase app from the store
 - update : update the program
 - fix : fix & reinstall the program
@@ -340,6 +341,134 @@ def deploy_cmd():
             else:
                 print(GREEN + "[OK]" + RESET + " Deploying your app")
 
+def modify_cmd():
+    print("[-] Checking for connection saved", end='\r', flush=True)
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
+        
+    print("[\] Checking for connection saved", end='\r', flush=True)
+    file = open(f"{os.path.dirname(__file__)}/token","r")
+    print("[|] Checking for connection saved", end='\r', flush=True)
+    if file.read() == "":
+        file.close()
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : No saved connection found" + RESET)
+        exit()
+    else:
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
+        print()
+        print(" - Choose your platform supported app:")
+        print()
+        print("[1] Android")
+        print("[2] Windows")
+        print("[3] PaxOS9")
+        print()
+        platform = int(input("Choose > "))
+        if platform < 1 or platform > 3:
+            print(RED + "Error : Choise not found" + RESET)
+            exit()
+        print()
+        print(" - Complete the app details :")
+        id_app = str(input("ID APP "+ CYAN + "(Go to our discord server or the github repo to learn how ?)" + RESET + " : "))
+        name = str(input("New App Name : "))
+        version = str(input("New Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + RESET + ":"))
+        if version == "":
+            version = "v1.0"
+        
+        if name == "":
+            print(RED + "Error : Name APP Required")
+            exit()
+
+        print("New Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
+        lines = []
+        description = ""
+        while True:
+            try:
+                line = input(GREEN + "> " + RESET)
+                lines.append(line)
+            except EOFError:
+                break
+            
+        
+        if len(lines) != 0:
+            for txt in lines:
+                txt.replace("^Z","")
+                txt.replace("^D","")
+
+                description = f"{description}\n{txt}"
+        
+        icon_path = str(input("New Icon Path (.png only supported) : "))
+        if not is_valid_image_pillow(icon_path):
+            print(RED + "Error : Not a valid image" + RESET)
+            exit()
+        else:
+            if open(icon_path, "rb").read(4) != b"\x89PNG":
+                print(RED + "Error : Only .png file are supported" + RESET)
+                exit()
+        
+        file_path = str(input("New App File : "))
+
+        if not os.path.exists(file_path):
+            print(RED + "Error : File Not Found" + RESET)
+            exit()
+        else:
+            if platform == 1:
+                if not is_valid_apk(file_path):
+                    print(RED + "Error : File APK not valid" + RESET)
+                    exit()
+            elif platform == 2:
+                if not is_valid_pe(file_path):
+                    print(RED + "Error : File .EXE not valid" + RESET)
+                    exit()
+            elif platform == 3:
+                if not is_valid_tar(file_path):
+                    print(RED + "Error : File .TAR not valid" + RESET)
+                    exit()
+        print()
+        print("[-] Modifying your app", end='\r', flush=True)
+        data_form_deploy ={
+            "name":name,
+            "description":description,
+            "version":version,
+            "id_app":id_app
+        } 
+        data_files_deploy = {
+            "icon": open(icon_path,"rb"),
+            "appfile": open(file_path,"rb")
+        }
+        cookies_data = {
+            "id_creator":str(open(f"{os.path.dirname(__file__)}/token","r").read())
+        }
+        requete = None
+        if platform == 1:
+            print("[\] Modifying your app", end='\r', flush=True)
+            requete = requests.get(f"{URL}/modify_app/android",verify=False,data = data_form_deploy,files=data_files_deploy,cookies=cookies_data)
+        elif platform == 2:
+            print("[\] Modifying your app", end='\r', flush=True)
+            requete = requests.get(f"{URL}/modify_app/windows",verify=False,data = data_form_deploy,files=data_files_deploy,cookies=cookies_data)
+        elif platform == 3:
+            print("[\] Modifying your app", end='\r', flush=True)
+            requete = requests.get(f"{URL}/modify_app/paxo",verify=False,data = data_form_deploy,files=data_files_deploy,cookies=cookies_data)
+        
+        print("[|] Modifying your app", end='\r', flush=True)
+        if requete.status_code == 200:
+            if json.loads(requete.text)["success"] == 0:
+                if json.loads(requete.text)["error"] == "AccountID_404":
+                    print(YELLOW + "[!]" + RESET + " Modifying your app")
+                    print(RED + "Error : Account not Found" + RESET)
+                    exit()
+                elif json.loads(requete.text)["error"] == "Unverified_Account":
+                    print(YELLOW + "[!]" + RESET + " Modifying your app")
+                    print(RED + "Error : Account not Verified" + RESET)
+                    exit()
+                elif json.loads(requete.text)["error"] == "NameApp_Taken":
+                    print(YELLOW + "[!]" + RESET + " Modifying your app")
+                    print(RED + "Error : App Name is already taken" + RESET)
+                    exit()
+            
+            else:
+                print(GREEN + "[OK]" + RESET + " Modifying your app")
+
 def remove_app_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
     if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
@@ -583,6 +712,8 @@ def main():
         remove_app_cmd()
     elif sys.argv[1].lower() == "update":
         update_cmd()
+    elif sys.argv[1].lower() == "modify_app":
+        modify_cmd()
     elif sys.argv[1].lower() == "fix":
         fix_cmd()
     else:
