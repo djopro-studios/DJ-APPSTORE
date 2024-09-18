@@ -604,6 +604,7 @@ def update_cmd():
                         else:
                             print(YELLOW + "[!]" + RESET + " Updating the CLI")
                             print(RED + "Error : ", result.stderr + RESET)
+                            exit()
 
                     else:
                         print(YELLOW + "[!]" + RESET + " Updating the CLI")
@@ -701,6 +702,7 @@ def main():
                         else:
                             print(YELLOW + "[!]" + RESET + " Updating the CLI")
                             print(RED + "Error : ", result.stderr + RESET)
+                            exit()
 
                     else:
                         print(YELLOW + "[!]" + RESET + " Updating the CLI")
