@@ -356,6 +356,7 @@ def modify_cmd():
         exit()
     else:
         print(GREEN + "[OK]" + RESET + " Checking for connection saved")
+        id_creator = str(open(f"{os.path.dirname(__file__)}/token","r").read())
         print()
         print(" - Choose your platform supported app:")
         print()
@@ -368,8 +369,35 @@ def modify_cmd():
             print(RED + "Error : Choise not found" + RESET)
             exit()
         print()
+        print(" - Choose your app to modify it :\n")
+        if platform == 1:
+            all_apps = requests.get(f"{URL}/get/android",verify=False)
+        elif platform == 2:
+            all_apps = requests.get(f"{URL}/get/windows",verify=False)
+        elif platform == 3:
+            all_apps = requests.get(f"{URL}/get/paxo",verify=False)
+            
+        apps_json = []
+        if all_apps.status_code == 200:
+            name_from_id = json.loads(requests.get(f"{URL}/get_name_account_by_id/{id_creator}",verify=False).text)["name"]
+            for app in json.loads(all_apps.text):
+                if app["creator"] == name_from_id:
+                    apps_json.append(app)
+
+        
+        index = -1 
+        for v in apps_json:
+            index += 1
+            print(GREEN + str(index) + RESET + f" - {v['name']}")
+
+        print()
+        choosed_app = int(input("Choose an app to delete : "))
+        if choosed_app > len(apps_json) or choosed_app <= -1:
+            print(RED + "Error : Invalid Choice")
+            exit()
+
         print(" - Complete the app details :")
-        id_app = str(input("ID APP "+ CYAN + "(Go to our discord server or the github repo to learn how ?)" + RESET + " : "))
+        
         name = str(input("New App Name : "))
         version = str(input("New Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + RESET + ":"))
         if version == "":
@@ -430,14 +458,14 @@ def modify_cmd():
             "name":name,
             "description":description,
             "version":version,
-            "id_app":id_app
+            "id_app":apps_json[choosed_app]["id"]
         } 
         data_files_deploy = {
             "icon": open(icon_path,"rb"),
             "appfile": open(file_path,"rb")
         }
         cookies_data = {
-            "id_creator":str(open(f"{os.path.dirname(__file__)}/token","r").read())
+            "id_creator":id_creator
         }
         requete = None
         if platform == 1:
