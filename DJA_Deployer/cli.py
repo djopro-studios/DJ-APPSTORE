@@ -524,11 +524,39 @@ def remove_app_cmd():
             print(RED + "Error : Choise not found" + RESET)
             exit()
         print()
-        name = str(input("Name APP to remove : "))
+        print(" - Choose your app to modify it :\n")
+        if platform == 1:
+            all_apps = requests.get(f"{URL}/get/android",verify=False)
+        elif platform == 2:
+            all_apps = requests.get(f"{URL}/get/windows",verify=False)
+        elif platform == 3:
+            all_apps = requests.get(f"{URL}/get/paxo",verify=False)
+        
+        id_creator = str(open(f"{os.path.dirname(__file__)}/token","r").read())
+
+        apps_json = []
+        if all_apps.status_code == 200:
+            name_from_id = json.loads(requests.get(f"{URL}/get_name_account_by_id/{id_creator}",verify=False).text)["name"]
+            for app in json.loads(all_apps.text):
+                if app["creator"] == name_from_id:
+                    apps_json.append(app)
+
+        
+        index = -1 
+        for v in apps_json:
+            index += 1
+            print(GREEN + str(index) + RESET + f" - {v['name']}")
+
+        print()
+        choosed_app = int(input("Choose an app to delete : "))
+        if choosed_app > len(apps_json) or choosed_app <= -1:
+            print(RED + "Error : Invalid Choice")
+            exit()
+
         print()
         print("[-] Removing your app", end='\r', flush=True)
         data_form_deploy ={
-            "name":name,
+            "name":apps_json[choosed_app]['name'],
         } 
         cookies_data = {
             "id_creator":str(open(f"{os.path.dirname(__file__)}/token","r").read())
