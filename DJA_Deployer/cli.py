@@ -98,6 +98,7 @@ def help_cmd():
 - remove_app : erase app from the store
 - update : update the program
 - fix : fix & reinstall the program
+- changelog : ChangeLog of the latest update
           
 [ NOTE ] This program auto update every execution
           
@@ -391,48 +392,59 @@ def modify_cmd():
             print(GREEN + str(index) + RESET + f" - {v['name']}")
 
         print()
-        choosed_app = int(input("Choose an app to delete : "))
+        choosed_app = int(input("Choose an app to modify : "))
         if choosed_app > len(apps_json) or choosed_app <= -1:
             print(RED + "Error : Invalid Choice")
             exit()
 
         print(" - Complete the app details :")
         
-        name = str(input("New App Name : "))
+        choise_user_app = str(input("Do you want to modify the app name ? (y/n) : "))
+        name = ""
+        if choise_user_app == "y" or choise_user_app == "Y" or choise_user_app == "yes" or choise_user_app == "YES":
+            name = str(input("New App Name : "))
+
         version = str(input("New Version APP " + CYAN + "(Example : v1.0 , Alpha, v1.2_Beta)" + RESET + ":"))
         if version == "":
             version = "v1.0"
         
-        if name == "":
+        if False: #name == "":
             print(RED + "Error : Name APP Required")
             exit()
 
-        print("New Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
-        lines = []
+        choise_user_app = str(input("Do you want to modify the description ? (y/n) : "))
         description = ""
-        while True:
-            try:
-                line = input(GREEN + "> " + RESET)
-                lines.append(line)
-            except EOFError:
-                break
+        if choise_user_app == "y" or choise_user_app == "Y" or choise_user_app == "yes" or choise_user_app == "YES":
+            
+            print("New Description " + CYAN + "[MultiLine | press Ctrl+D (or Ctrl+Z for Windows) to stop typing] " + YELLOW + "(^Z and ^D will be automatically erased)" + RESET)
+            lines = []
+            description = ""
+            while True:
+                try:
+                    line = input(GREEN + "> " + RESET)
+                    lines.append(line)
+                except EOFError:
+                    break
             
         
-        if len(lines) != 0:
-            for txt in lines:
-                txt.replace("^Z","")
-                txt.replace("^D","")
+            if len(lines) != 0:
+                for txt in lines:
+                    txt.replace("^Z","")
+                    txt.replace("^D","")
 
-                description = f"{description}\n{txt}"
+                    description = f"{description}\n{txt}"
         
-        icon_path = str(input("New Icon Path (.png only supported) : "))
-        if not is_valid_image_pillow(icon_path):
-            print(RED + "Error : Not a valid image" + RESET)
-            exit()
-        else:
-            if open(icon_path, "rb").read(4) != b"\x89PNG":
-                print(RED + "Error : Only .png file are supported" + RESET)
+        choise_user_app = str(input("Do you want to modify the icon ? (y/n) : "))
+        icon_path = None
+        if choise_user_app == "y" or choise_user_app == "Y" or choise_user_app == "yes" or choise_user_app == "YES":
+            icon_path = str(input("New Icon Path (.png only supported) : "))
+            if not is_valid_image_pillow(icon_path):
+                print(RED + "Error : Not a valid image" + RESET)
                 exit()
+            else:
+                if open(icon_path, "rb").read(4) != b"\x89PNG":
+                    print(RED + "Error : Only .png file are supported" + RESET)
+                    exit()
         
         file_path = str(input("New App File : "))
 
@@ -461,7 +473,7 @@ def modify_cmd():
             "id_app":apps_json[choosed_app]["id"]
         } 
         data_files_deploy = {
-            "icon": open(icon_path,"rb"),
+            "icon": "" if icon_path is None else open(icon_path, "rb"),
             "appfile": open(file_path,"rb")
         }
         cookies_data = {
@@ -492,6 +504,10 @@ def modify_cmd():
                 elif json.loads(requete.text)["error"] == "NameApp_Taken":
                     print(YELLOW + "[!]" + RESET + " Modifying your app")
                     print(RED + "Error : App Name is already taken" + RESET)
+                    exit()
+                else:
+                    print(YELLOW + "[!]" + RESET + " Modifying your app")
+                    print(RED + "Error : " + json.loads(requete.text)["error"] + RESET)
                     exit()
             
             else:
@@ -658,6 +674,13 @@ def update_cmd():
 def fix_cmd():
     print(RED + "Error : Comming Soon" + RESET)
 
+def changelog_cmd():
+    print(f""" == Changelog DJAD V{__version__} ==
+    
+    - Modification program is now customizable , you can now modify a specific things in your app like name and appfile only !a
+    """)
+
+
 ################ MAIN ################
 def main():
     print(f"""                              
@@ -774,6 +797,8 @@ def main():
         modify_cmd()
     elif sys.argv[1].lower() == "fix":
         fix_cmd()
+    elif sys.argv[1].lower() == "changelog":
+        changelog_cmd()
     else:
         help_cmd()
     
