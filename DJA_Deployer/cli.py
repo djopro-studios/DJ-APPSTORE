@@ -96,6 +96,7 @@ def help_cmd():
 - deploy : deploy apps on the store
 - modify_app : modify the content of the app
 - remove_app : erase app from the store
+- link_wallet : link a wallet to your account
 - update : update the program
 - fix : fix & reinstall the program
 - changelog : ChangeLog of the latest update
@@ -271,6 +272,13 @@ def deploy_cmd():
 
                 description = f"{description}\n{txt}"
         
+        price = int(input("Price Of your Application " + YELLOW + "(Between 0 - 2500)" + RESET + " : "))
+        if isinstance(price,int) and price >= 0 and price < 2500:
+            pass
+        else:
+            print(RED + "Error : Not a valid price" + RESET)
+            exit()
+
         icon_path = str(input("Icon Path (.png only supported) : "))
         if not is_valid_image_pillow(icon_path):
             print(RED + "Error : Not a valid image" + RESET)
@@ -303,7 +311,8 @@ def deploy_cmd():
         data_form_deploy ={
             "name":name,
             "description":description,
-            "version":version
+            "version":version,
+            "price":int(price)
         } 
         data_files_deploy = {
             "icon": open(icon_path,"rb"),
@@ -337,6 +346,10 @@ def deploy_cmd():
                 elif json.loads(requete.text)["error"] == "NameApp_Taken":
                     print(YELLOW + "[!]" + RESET + " Deploying your app")
                     print(RED + "Error : App Name is already taken" + RESET)
+                    exit()
+                elif json.loads(requete.text)["error"] == "Price_500":
+                    print(YELLOW + "[!]" + RESET + " Deploying your app")
+                    print(RED + "Error : Not valid Price" + RESET)
                     exit()
             
             else:
@@ -433,6 +446,16 @@ def modify_cmd():
                     txt.replace("^D","")
 
                     description = f"{description}\n{txt}"
+
+        choise_user_app = str(input("Do you want to modify the price ? (y/n) : "))
+        price = ""
+        if choise_user_app == "y" or choise_user_app == "Y" or choise_user_app == "yes" or choise_user_app == "YES":
+            price = int(input("Price Of your Application " + YELLOW + "(Between 0 - 2500)" + RESET + " : "))
+            if isinstance(price,int) and price >= 0 and price < 2500:
+                pass
+            else:
+                print(RED + "Error : Not a valid price" + RESET)
+                exit()
         
         choise_user_app = str(input("Do you want to modify the icon ? (y/n) : "))
         icon_path = None
@@ -470,7 +493,8 @@ def modify_cmd():
             "name":name,
             "description":description,
             "version":version,
-            "id_app":apps_json[choosed_app]["id"]
+            "id_app":apps_json[choosed_app]["id"],
+            "price":int(price)
         } 
         data_files_deploy = {
             "icon": "" if icon_path is None else open(icon_path, "rb"),
@@ -512,6 +536,10 @@ def modify_cmd():
             
             else:
                 print(GREEN + "[OK]" + RESET + " Modifying your app")
+        else:
+            print(YELLOW + "[!]" + RESET + " Modifying your app")
+            print(RED + "Error : " + requete.text + RESET)
+            exit()
 
 def remove_app_cmd():
     print("[-] Checking for connection saved", end='\r', flush=True)
@@ -677,9 +705,44 @@ def fix_cmd():
 def changelog_cmd():
     print(f""" == Changelog DJAD V{__version__} ==
     
-    - Modification program is now customizable , you can now modify a specific things in your app like name and appfile only !a
+    - Added the price
+    - You can link your account with a wallet
+
     """)
 
+def link_wallet_cmd():
+    print("[-] Checking for connection saved", end='\r', flush=True)
+    if not os.path.exists(f"{os.path.dirname(__file__)}/token"):
+        open(f"{os.path.dirname(__file__)}/token","w").write("")
+        
+    print("[\] Checking for connection saved", end='\r', flush=True)
+    file = open(f"{os.path.dirname(__file__)}/token","r")
+    print("[|] Checking for connection saved", end='\r', flush=True)
+    if file.read() == "":
+        file.close()
+        print(YELLOW + "[!]" + RESET + " Checking for connection saved")
+        print(RED + "Error : No saved connection found" + RESET)
+        exit()
+    else:
+        print(GREEN + "[OK]" + RESET + " Checking for connection saved")
+        print()
+        wallet_address = str(input("Enter your wallet address : "))
+        if wallet_address != "":
+            id_creator = str(open(f"{os.path.dirname(__file__)}/token","r").read())
+
+            # print(json.loads(requests.get(f"{URL}/wallet/link?wallet={wallet_address}&account={id_creator}",verify=False).text))
+            if json.loads(requests.get(f"{URL}/wallet/link?wallet={wallet_address}&account={id_creator}",verify=False).text)["success"] == 1:
+                print(GREEN + "[OK]" + RESET + " Linking The wallet")
+                exit()
+            else:
+                print(YELLOW + "[!]" + RESET + " Linking The wallet")
+                print(RED + "Error : Wallet not valid" + RESET)
+                exit()
+        
+        else:
+            print(YELLOW + "[!]" + RESET + " Linking The wallet")
+            print(RED + "Error : Fill the blancks" + RESET)
+            exit()
 
 ################ MAIN ################
 def main():
@@ -704,6 +767,11 @@ def main():
        | DJAPPSTORE DEPLOYER |
        +========= V{__version__} ========+
 
+  #########################################
+  #####                               #####
+  #####   DON'T BREAK YOU'RE DREAMS   #####
+  #####                               #####
+  #########################################
 """)
 
 
@@ -799,6 +867,8 @@ def main():
         fix_cmd()
     elif sys.argv[1].lower() == "changelog":
         changelog_cmd()
+    elif sys.argv[1].lower() == "link_wallet":
+        link_wallet_cmd()
     else:
         help_cmd()
     
