@@ -1,6 +1,6 @@
 # CONTRAT DE LICENCE UTILISATEUR FINAL (EULA) POUR DJAPPSTORE ET DJAPPSTORE API  
 
-**Date d’entrée en vigueur :** [Insérer la date]  
+**Date d’entrée en vigueur :** 2024
 
 Ce contrat définit les termes et conditions d’utilisation de **DJAPPSTORE** et **DJAPPSTORE API**, qui sont la propriété exclusive de **DJSTUDIO** (abréviation de DJOPRO STUDIO).  
 
