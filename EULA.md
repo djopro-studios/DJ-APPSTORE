@@ -99,4 +99,4 @@ DJSTUDIO se réserve le droit de modifier cet EULA à tout moment. Les modificat
 
 En acceptant ces termes, l’Utilisateur reconnaît avoir lu, compris et accepté les conditions de cet EULA.
 
-**Contact :** Pour toute question, contactez DJSTUDIO à [votre email ou site web].
+**Contact :** Pour toute question, contactez DJSTUDIO à djoprostudio@gmail.com .
