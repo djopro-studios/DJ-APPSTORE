@@ -1,4 +1,4 @@
-Copyright (c) 2024 DJSTUDIO
+Copyright ©️ 2024 DJSTUDIO
 
 DJAPPSTORE, including its associated API, is licensed under restrictive license. The following terms apply:
 
