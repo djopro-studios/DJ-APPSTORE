@@ -88,7 +88,7 @@ L’Utilisateur accepte de défendre, indemniser et dégager DJSTUDIO de toute r
 ---
 
 ## 9. Droit applicable et juridiction  
-Ce contrat est régi par les lois de [votre pays]. Tout litige sera soumis à la compétence exclusive des tribunaux de [votre juridiction].  
+Ce contrat est régi par les lois Internationnals. Tout litige sera soumis à la compétence exclusive des tribunaux .  
 
 ---
 
