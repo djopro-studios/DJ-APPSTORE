@@ -12,9 +12,9 @@
 ```
 git clone -b DJADeployer https://github.com/djopro-studios/DJ-APPSTORE
 ```
-4. Build and install the application, run the following command in the project directory (in the cloned folder with the name 'DJADeployer'): 
+4. Build and install the application, run the following commands: 
 ```
-pip install .
+cd DJ-APPSTORE && pip install .
 ```
 ## How to Use :
 ### When you are done and you installed the app successfully , we can go to the next step !
