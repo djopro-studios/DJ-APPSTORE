@@ -38,7 +38,7 @@ or
 sudo apt install git python3
 ```
 
-### Windows
+### Windows / MacOS
 - Try to install Python3.xx from the Python official website.
 - Try to install Git from the official website of Git (Not Github but Git)
    
