@@ -25,7 +25,7 @@ cd DJ-APPSTORE && pip install .
 ## Handling the Errors :
 - Let's try to handle the errors and correct them:
 
-> Linux
+### Linux
 ```bash
 sudo apt update && sudo apt upgrade
 ```
@@ -38,7 +38,7 @@ or
 sudo apt install git python3
 ```
 
-> Windows
+### Windows
 - Try to install Python3.xx from the Python official website.
 - Try to install Git from the official website of Git (Not Github but Git)
    
