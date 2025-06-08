@@ -5,6 +5,10 @@
 > From now , you don't need to go to the website to download the apps , but this stuff is briged to you !
 > And From now , just a simple App in your device.
 
+> [!WARNING]
+> The API is currently under maintenance.
+
+
 ## For Users :
 ### You need to install the DJAPPSTORE App on your device, and here is the available and supported Devices :
 
